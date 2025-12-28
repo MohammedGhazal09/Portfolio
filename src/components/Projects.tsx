@@ -37,10 +37,10 @@ export const Projects = () => {
           {projects.map((project, index) => (
             <Card 
               key={index} 
-              className="glass transition-all duration-300 group overflow-hidden border-0 animate-scale-in"
+              className="glass transition-all duration-300 group overflow-hidden border-0 animate-scale-in h-full flex flex-col"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <CardHeader className="pb-4 pt-8">
+              <CardHeader className="pb-4 pt-8 flex-1">
                 <CardTitle className="text-4xl text-gradient mb-4">
                   {project.title}
                 </CardTitle>
@@ -49,12 +49,12 @@ export const Projects = () => {
                 </CardDescription>
               </CardHeader>
               
-              <CardContent>
+              <CardContent className="pt-4 pb-8">
                 <div className="flex gap-4">
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="flex-1 glass hover:scale-105 transition-all duration-300 group/btn border-0"
+                    className="flex-1 glass hover:scale-105 transition-all duration-300 group/btn border-0 "
                     asChild
                   >
                     <a href={project.demo} target="_blank" rel="noopener noreferrer">
