@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website showcasing my work as a Full-Stack MERN Developer.
 
-🔗 **Live Site:** [mohammedghazal.vercel.app](https://mohammedghazal.vercel.app)
+🔗 **Live Site:** ([portfolio-omega-ecru-62.vercel.app](https://portfolio-omega-ecru-62.vercel.app/))
 
 ![Portfolio Preview](https://img.shields.io/badge/Status-Live-brightgreen)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react)
