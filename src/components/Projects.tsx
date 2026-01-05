@@ -10,11 +10,18 @@ const projects = [
     github: "https://github.com/MohammedGhazal09/Chatify",
   },
   {
-    title: "PLASHOE E-Commerce",
+    title: "PLASHOE",
     description: "A full-stack e-commerce platform for shoes with user authentication, shopping cart functionality, payment integration, and admin dashboard for inventory management. Built with React, Node.js, Express, and MongoDB.",
     demo: "https://ecommerce-theta-lemon.vercel.app",
     github: "https://github.com/MohammedGhazal09/PLASHOE",
   },
+  {
+    title: "Clutch",
+    status: "In Development",
+    description: "An online multiplayer trivia game with AI-generated questions, live rooms, timers, and realtime scoring. Currently in active development with private testing; public demo is coming soon.",
+    demo: null,
+    github: "https://github.com/Mohammed-dev01/Clutch/tree/merge",
+  }
 ];
 
 export const Projects = () => {
@@ -41,6 +48,11 @@ export const Projects = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <CardHeader className="pb-4 pt-8 flex-1">
+                {project.status && (
+                  <span className="inline-flex items-center w-[34.5%] text-xs font-semibold tracking-[0.25em] uppercase text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-2 rounded-full mb-3">
+                    {project.status}
+                  </span>
+                )}
                 <CardTitle className="text-4xl text-gradient mb-4">
                   {project.title}
                 </CardTitle>
@@ -51,17 +63,29 @@ export const Projects = () => {
               
               <CardContent className="pt-4 pb-8">
                 <div className="flex gap-4">
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    className="flex-1 glass hover:scale-105 transition-all duration-300 group/btn border-0 "
-                    asChild
-                  >
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="mr-2 h-5 w-5 group-hover/btn:rotate-45 transition-transform" />
-                      Live Demo
-                    </a>
-                  </Button>
+                  {project.demo ? (
+                    <Button 
+                      variant="outline" 
+                      size="lg"
+                      className="flex-1 glass hover:scale-105 transition-all duration-300 group/btn border-0 "
+                      asChild
+                    >
+                      <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-5 w-5 group-hover/btn:rotate-45 transition-transform" />
+                        Live Demo
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button 
+                      variant="outline" 
+                      size="lg"
+                      className="flex-1 glass border-dashed border-muted-foreground/60 text-muted-foreground cursor-not-allowed"
+                      disabled
+                    >
+                      <ExternalLink className="mr-2 h-5 w-5" />
+                      Demo In Progress
+                    </Button>
+                  )}
                   <Button 
                     variant="outline" 
                     size="lg"
