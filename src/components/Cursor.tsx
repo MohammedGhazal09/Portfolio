@@ -22,7 +22,7 @@ export const Cursor = () => {
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
-    document.body.style.cursor = "none";
+    document.documentElement.classList.add("cursor-hidden");
 
     const dotX = gsap.quickTo(dot, "x", { duration: 0.08, ease: "power3.out" });
     const dotY = gsap.quickTo(dot, "y", { duration: 0.08, ease: "power3.out" });
@@ -62,7 +62,7 @@ export const Cursor = () => {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("pointerover", onPointerOver);
       document.removeEventListener("pointerout", onPointerOut);
-      document.body.style.cursor = "";
+      document.documentElement.classList.remove("cursor-hidden");
     };
   }, []);
 

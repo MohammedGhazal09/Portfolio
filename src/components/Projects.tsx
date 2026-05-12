@@ -23,10 +23,10 @@ const PROJECTS: Project[] = [
   {
     index: "01",
     title: "Chatify",
-    tagline: "Real-time messaging, MERN-native.",
+    tagline: "Real-time chat, end-to-end.",
     description:
-      "A real-time chat application with JWT-secured auth, Socket.io live messaging, presence indicators and a polished responsive UI. Mongo persistence, Express APIs, and a React front-end stitched together for a sub-100ms perceived send.",
-    stack: ["React", "Node.js", "Express", "MongoDB", "Socket.io", "JWT", "Tailwind"],
+      "A real-time chat app built with React, Node/Express, MongoDB and Socket.IO — featuring typing indicators, online presence and message delivery tracking. JWT + cookies auth with password recovery and protected user flows.",
+    stack: ["React", "Node.js", "Express", "MongoDB", "Socket.IO", "JWT", "Cookies"],
     image: "/projects/chatify.webp",
     demo: "https://chatify-ten-rho.vercel.app/",
     github: "https://github.com/MohammedGhazal09/Chatify",
@@ -36,10 +36,10 @@ const PROJECTS: Project[] = [
   {
     index: "02",
     title: "PLASHOE",
-    tagline: "End-to-end e-commerce, built deliberately.",
+    tagline: "Full-stack MERN commerce.",
     description:
-      "A full-stack shoes marketplace with auth, a real cart, integrated payments, and an admin dashboard for inventory ops. Built MERN, optimized for speed, and tuned end-to-end — from product browse to order confirmation.",
-    stack: ["React", "Node.js", "Express", "MongoDB", "Stripe", "JWT", "Tailwind"],
+      "A full-stack MERN e-commerce platform with product catalog and filtering, persistent cart, coupons/discounts and a complete checkout flow. Includes an order-tracking timeline, user accounts with addresses and order history, and MapTiler integration on the contact page.",
+    stack: ["React", "Node.js", "Express", "MongoDB", "MapTiler", "JWT", "Tailwind"],
     image: "/projects/plashoe.webp",
     demo: "https://ecommerce-theta-lemon.vercel.app",
     github: "https://github.com/MohammedGhazal09/PLASHOE",
@@ -269,7 +269,7 @@ export const Projects = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-8 text-xs uppercase tracking-[0.3em] text-muted-foreground font-mono">
           <span className="h-px w-12 bg-foreground/30" />
-          <span>03 — Selected work</span>
+          <span>04 — Selected work</span>
         </div>
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-20">

@@ -185,7 +185,7 @@ export const Contact = () => {
       <div className="relative max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-8 text-xs uppercase tracking-[0.3em] text-muted-foreground font-mono">
           <span className="h-px w-12 bg-foreground/30" />
-          <span>04 — Get in touch</span>
+          <span>05 — Get in touch</span>
         </div>
 
         <h2

@@ -8,18 +8,17 @@ import { cn } from "../lib/utils";
 const SECTIONS = [
   { id: "hero", label: "Home" },
   { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Work" },
+  { id: "experience", label: "Work" },
+  { id: "skills", label: "Stack" },
+  { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
 ] as const;
 
 const NavLink = ({
-  id,
   label,
   active,
   onClick,
 }: {
-  id: string;
   label: string;
   active: boolean;
   onClick: () => void;
@@ -159,7 +158,6 @@ export const Navigation = () => {
             {SECTIONS.map((s) => (
               <NavLink
                 key={s.id}
-                id={s.id}
                 label={s.label}
                 active={active === s.id}
                 onClick={() => scrollTo(s.id)}

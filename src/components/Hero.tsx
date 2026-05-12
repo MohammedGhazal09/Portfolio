@@ -4,7 +4,13 @@ import { gsap, SplitText } from "../lib/gsap";
 import { useMagnetic } from "../lib/magnetic";
 import { ShaderBackground } from "./ShaderBackground";
 
-const ROLES = ["Full-Stack Engineer", "MERN Specialist", "UI/UX Craftsman", "Problem Solver"];
+const ROLES = [
+  "Full-Stack Engineer",
+  "MERN Specialist",
+  "UI/UX Craftsman",
+  "Problem Solver",
+  "Accessibility Advocate",
+];
 
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -130,7 +136,10 @@ export const Hero = () => {
       id="hero"
       className="relative min-h-[100svh] w-full overflow-hidden flex items-center"
     >
-      <ShaderBackground />
+      <ShaderBackground
+        light={{ c1: "#dbeafe", c2: "#e9d5ff", c3: "#cffafe" }}
+        dark={{ c1: "#1e3a8a", c2: "#7c3aed", c3: "#0ea5e9" }}
+      />
 
       {/* Soft ambient overlays for legibility */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background pointer-events-none" />
@@ -145,16 +154,19 @@ export const Hero = () => {
               <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] animate-pulse" />
             </div>
 
-            <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.85] text-[clamp(3rem,12vw,11rem)]">
-              <span className="block overflow-hidden">
-                <span ref={firstNameRef} className="inline-block will-change-transform">
+            <h1
+              className="font-display font-bold tracking-[-0.04em] leading-[0.85] text-[clamp(2.75rem,11vw,10rem)]"
+              style={{ textWrap: "nowrap" } as React.CSSProperties}
+            >
+              <span className="block overflow-hidden whitespace-nowrap">
+                <span ref={firstNameRef} className="inline-block whitespace-nowrap will-change-transform">
                   Mohammed
                 </span>
               </span>
-              <span className="block overflow-hidden">
+              <span className="block overflow-hidden whitespace-nowrap">
                 <span
                   ref={lastNameRef}
-                  className="inline-block will-change-transform text-gradient"
+                  className="inline-block whitespace-nowrap will-change-transform text-gradient"
                 >
                   Ghazal
                 </span>
@@ -175,9 +187,9 @@ export const Hero = () => {
               ref={taglineRef}
               className="mt-10 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground"
             >
-              Building scalable, high-performance web applications with the MERN stack —
-              obsessed with clean code, considered motion, and interfaces that earn their
-              first impression.
+              Building scalable, high-performance web applications. Skilled in modern
+              UI/UX design, API integration, responsive design, and web accessibility —
+              committed to writing clean, maintainable code.
             </p>
 
             <div ref={ctaRef} className="mt-12 flex flex-wrap items-center gap-4">

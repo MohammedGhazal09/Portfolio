@@ -3,48 +3,69 @@ import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { gsap } from "../lib/gsap";
 
 export const Footer = () => {
-  const wordmarkRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  // Massive marquee wordmark — drifts horizontally on scroll
+  // Infinite horizontal marquee for the giant wordmark — same canonical
+  // GSAP pattern as the Skills marquee. Track contains items twice;
+  // tween from 0 → -50% xPercent on the doubled track makes the snap
+  // back to 0 invisible.
   useEffect(() => {
-    const el = wordmarkRef.current;
-    if (!el) return;
-    const ctx = gsap.context(() => {
-      gsap.to(el, {
-        xPercent: -25,
+    const track = trackRef.current;
+    if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const tween = gsap.fromTo(
+      track,
+      { xPercent: 0 },
+      {
+        xPercent: -50,
+        duration: 28,
         ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.6,
-        },
-      });
-    }, el);
-    return () => ctx.revert();
+        repeat: -1,
+      },
+    );
+
+    const onEnter = () => gsap.to(tween, { timeScale: 0.25, duration: 0.4, overwrite: true });
+    const onLeave = () => gsap.to(tween, { timeScale: 1, duration: 0.6, overwrite: true });
+    track.addEventListener("mouseenter", onEnter);
+    track.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      tween.kill();
+      track.removeEventListener("mouseenter", onEnter);
+      track.removeEventListener("mouseleave", onLeave);
+    };
   }, []);
 
   const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const year = new Date().getFullYear();
 
+  // Single sequence — rendered twice via JSX duplication for seamless loop
+  const wordmarkSequence = (
+    <>
+      <span className="text-gradient">MOHAMMED</span>
+      <span className="text-foreground/10 mx-8">·</span>
+      <span className="text-foreground/15">GHAZAL</span>
+      <span className="text-foreground/10 mx-8">·</span>
+    </>
+  );
+
   return (
     <footer className="relative pt-24 pb-10 overflow-hidden border-t border-foreground/10">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
-      {/* Massive drifting wordmark */}
-      <div className="overflow-hidden mb-16 -mx-6 md:-mx-10">
+      {/* Infinite drifting wordmark */}
+      <div className="overflow-hidden mb-16">
         <div
-          ref={wordmarkRef}
-          className="font-display font-bold tracking-[-0.04em] leading-none whitespace-nowrap text-[clamp(5rem,18vw,17rem)] select-none"
+          ref={trackRef}
+          className="flex whitespace-nowrap font-display font-bold tracking-[-0.04em] leading-none text-[clamp(5rem,18vw,17rem)] select-none will-change-transform"
+          style={{ width: "max-content" }}
           aria-hidden
         >
-          <span className="text-gradient">MOHAMMED</span>
-          <span className="text-foreground/10 mx-8">·</span>
-          <span className="text-foreground/15">GHAZAL</span>
-          <span className="text-foreground/10 mx-8">·</span>
-          <span className="text-gradient">MOHAMMED</span>
-          <span className="text-foreground/10 mx-8">·</span>
-          <span className="text-foreground/15">GHAZAL</span>
+          {wordmarkSequence}
+          {wordmarkSequence}
+          {wordmarkSequence}
+          {wordmarkSequence}
         </div>
       </div>
 
@@ -55,8 +76,7 @@ export const Footer = () => {
               Currently
             </div>
             <p className="text-sm leading-relaxed text-foreground/80">
-              Open to <span className="text-gradient font-medium">full-time</span> and{" "}
-              <span className="text-gradient font-medium">freelance</span> work — preference for product teams that care about craft.
+              Full-Stack Engineer at <span className="text-gradient font-medium">Alsaqefah</span> — open to interesting collaborations and conversations.
             </p>
           </div>
 
