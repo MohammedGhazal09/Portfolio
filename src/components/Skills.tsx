@@ -86,6 +86,26 @@ const LANGUAGES = [
   { name: "English", level: "Proficient · B2/C1", pct: 85 },
 ];
 
+/**
+ * Headline tech surface — the stack the resume actually centers on.
+ * Rendered as a static featured grid so visitors can scan the main techniques
+ * immediately, without waiting for the marquee to cycle past them.
+ */
+const CORE_STACK: { name: string; category: string }[] = [
+  { name: "React.js", category: "Front-End" },
+  { name: "Angular", category: "Front-End" },
+  { name: "TypeScript", category: "Language" },
+  { name: "Tailwind CSS", category: "Styling" },
+  { name: "Node.js", category: "Back-End" },
+  { name: "Express.js", category: "Back-End" },
+  { name: "Laravel", category: "Back-End" },
+  { name: "PHP", category: "Language" },
+  { name: "MongoDB", category: "Database" },
+  { name: "MySQL", category: "Database" },
+  { name: "Socket.IO", category: "Realtime" },
+  { name: "Next.js", category: "Framework" },
+];
+
 const MarqueeRow = ({ items, speed, reverse }: Row) => {
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -169,6 +189,15 @@ export const Skills = () => {
         },
       });
 
+      gsap.from(".core-stack-card", {
+        y: 32,
+        opacity: 0,
+        stagger: { each: 0.05, from: "start" },
+        ease: "power3.out",
+        duration: 0.7,
+        scrollTrigger: { trigger: ".core-stack-grid", start: "top 85%" },
+      });
+
       gsap.from(".soft-skill-card", {
         y: 40,
         opacity: 0,
@@ -226,6 +255,41 @@ export const Skills = () => {
           A curated stack — front-end, back-end and the tooling in between. Things I use
           weekly, ship with confidence, and have opinions about.
         </p>
+
+        {/* Core stack — featured grid of headline techs from the resume.
+            Static, always visible — no marquee scrolling required. */}
+        <div className="mt-16">
+          <div className="flex items-center gap-3 mb-6 text-xs uppercase tracking-[0.3em] text-muted-foreground font-mono">
+            <span className="h-px w-12 bg-foreground/30" />
+            <span>Core stack</span>
+          </div>
+
+          <div className="core-stack-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {CORE_STACK.map((tech) => (
+              <div
+                key={tech.name}
+                data-cursor="hover"
+                className="core-stack-card group relative glass-strong rounded-2xl p-5 md:p-6 overflow-hidden hover:bg-foreground/[0.03] transition-colors"
+              >
+                <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-base md:text-lg font-bold tracking-tight truncate">
+                      {tech.name}
+                    </div>
+                    <div className="mt-1 text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground font-mono">
+                      {tech.category}
+                    </div>
+                  </div>
+                  <span
+                    className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary/70 group-hover:bg-primary group-hover:shadow-[0_0_12px_hsl(var(--primary))] transition-all"
+                    aria-hidden
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Marquee rows — full bleed */}

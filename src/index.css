@@ -266,10 +266,17 @@ All colors MUST be HSL.
     animation: slide-in-right 0.8s ease-out forwards;
   }
   
-  .text-gradient {
-    background: var(--gradient-primary);
+  /* Gradient text. The trailing selector re-applies the gradient to every
+   * descendant so that SplitText-generated chars (which inherit `color:
+   * transparent` but NOT the parent's background) stay visible during
+   * character-level reveals. Without this, words like "ships", "shipping",
+   * and "stay" disappear once SplitText wraps each letter in its own div. */
+  .text-gradient,
+  .text-gradient * {
+    background-image: var(--gradient-primary);
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: transparent;
   }
   
