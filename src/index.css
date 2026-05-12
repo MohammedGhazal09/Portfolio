@@ -115,16 +115,71 @@ All colors MUST be HSL.
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  html {
+    /* Lenis-driven smooth scroll handles this; native fallback if Lenis disabled */
+    scroll-behavior: smooth;
+    /* Better text antialiasing on macOS / Windows */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     @apply bg-background text-foreground font-body;
+    /* High-quality numerals + alternates */
+    font-feature-settings: "ss01", "cv11", "kern", "liga";
+    overflow-x: hidden;
   }
-  
-  html {
-    scroll-behavior: smooth;
-  }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+    text-wrap: balance;
+  }
+
+  /* Tabular numerals for stats */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Selection */
+  ::selection {
+    background: hsl(var(--primary) / 0.85);
+    color: hsl(var(--primary-foreground));
+  }
+
+  /* Hide native scrollbar — Lenis handles scroll feel */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--foreground) / 0.15);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground) / 0.3);
+  }
+
+  /* Used by SplitText — chars overflow their masks during reveal */
+  .word, .char {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  /* Reduced motion: collapse Lenis + animations gracefully */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

@@ -1,94 +1,251 @@
-import { lazy, Suspense } from "react";
-import { Button } from "./ui/button";
-import { Mail, Sparkles } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Mail, ArrowDown, Sparkles } from "lucide-react";
+import { gsap, SplitText } from "../lib/gsap";
+import { useMagnetic } from "../lib/magnetic";
+import { ShaderBackground } from "./ShaderBackground";
 
-// Lazy load 3D component for better initial load performance
-const HeroModel = lazy(() => import("./HeroModel").then(module => ({ default: module.HeroModel })));
-
-// Loading fallback for 3D model
-const ModelFallback = () => (
-  <div className="w-full h-full min-h-[50vh] lg:min-h-[80vh] flex items-center justify-center">
-    <div className="glass p-8 rounded-2xl">
-      <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-    </div>
-  </div>
-);
+const ROLES = ["Full-Stack Engineer", "MERN Specialist", "UI/UX Craftsman", "Problem Solver"];
 
 export const Hero = () => {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const sectionRef = useRef<HTMLElement>(null);
+  const firstNameRef = useRef<HTMLSpanElement>(null);
+  const lastNameRef = useRef<HTMLSpanElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const meta1Ref = useRef<HTMLDivElement>(null);
+  const meta2Ref = useRef<HTMLDivElement>(null);
+  const scrollHintRef = useRef<HTMLDivElement>(null);
+  const roleRef = useRef<HTMLSpanElement>(null);
 
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  const ctaPrimary = useMagnetic<HTMLAnchorElement>(20);
+  const ctaGhost = useMagnetic<HTMLAnchorElement>(20);
+
+  // ── Entry choreography ──
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const splits: SplitText[] = [];
+      const split = (el: Element | null, type = "chars,words") => {
+        if (!el) return null;
+        const s = new SplitText(el, { type, charsClass: "char", wordsClass: "word" });
+        splits.push(s);
+        return s;
+      };
+
+      const first = split(firstNameRef.current);
+      const last = split(lastNameRef.current);
+      const tagline = split(taglineRef.current, "lines,words");
+
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      tl.from(badgeRef.current, { y: 30, opacity: 0, duration: 0.8 })
+        .from(
+          first?.chars ?? [],
+          { yPercent: 120, opacity: 0, stagger: 0.04, duration: 1 },
+          "-=0.4",
+        )
+        .from(
+          last?.chars ?? [],
+          { yPercent: 120, opacity: 0, stagger: 0.04, duration: 1 },
+          "-=0.85",
+        )
+        .from(roleRef.current, { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
+        .from(
+          tagline?.lines ?? [],
+          { y: 30, opacity: 0, stagger: 0.08, duration: 0.9 },
+          "-=0.5",
+        )
+        .from(ctaRef.current?.children ?? [], { y: 20, opacity: 0, stagger: 0.1, duration: 0.7 }, "-=0.6")
+        .from(
+          [meta1Ref.current, meta2Ref.current],
+          { y: 20, opacity: 0, stagger: 0.1, duration: 0.7 },
+          "-=0.5",
+        )
+        .from(scrollHintRef.current, { opacity: 0, y: 10, duration: 0.6 }, "-=0.3");
+
+      // Idle scroll-hint bounce
+      gsap.to(scrollHintRef.current, {
+        y: 8,
+        repeat: -1,
+        yoyo: true,
+        duration: 1.2,
+        ease: "sine.inOut",
+        delay: 2.5,
+      });
+
+      // Scroll-out parallax: hero content drifts up + fades while shader stays
+      gsap.to(".hero-content", {
+        yPercent: -25,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+        },
+      });
+
+      return () => splits.forEach((s) => s.revert());
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ── Rotating role text ──
+  useEffect(() => {
+    const el = roleRef.current;
+    if (!el) return;
+    let i = 0;
+    const cycle = () => {
+      i = (i + 1) % ROLES.length;
+      gsap.to(el, {
+        yPercent: -100,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power3.in",
+        onComplete: () => {
+          el.textContent = ROLES[i];
+          gsap.fromTo(
+            el,
+            { yPercent: 100, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          );
+        },
+      });
+    };
+    const interval = setInterval(cycle, 2800);
+    return () => clearInterval(interval);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: y, behavior: "smooth" });
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative px-4 py-20 lg:py-0">
-      {/* Mesh gradient background */}
-      <div className="absolute inset-0 gradient-mesh opacity-50"></div>
-      
-      {/* Animated orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-30 animate-float"
-           style={{ background: 'linear-gradient(135deg, hsl(210 100% 50%), hsl(280 100% 65%))' }}>
-      </div>
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl opacity-20 animate-float"
-           style={{ animationDelay: '2s', background: 'linear-gradient(135deg, hsl(195 100% 50%), hsl(260 100% 70%))' }}>
-      </div>
-      
-      {/* Main content - Split layout */}
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          
-          {/* Left side - Text content */}
-          <div className="flex-1 text-center lg:text-left animate-fade-in-up space-y-6 lg:space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full text-sm font-medium">
-              <Sparkles className="h-4 w-4 text-primary" />
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="relative min-h-[100svh] w-full overflow-hidden flex items-center"
+    >
+      <ShaderBackground />
+
+      {/* Soft ambient overlays for legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.7)_100%)] pointer-events-none" />
+
+      <div className="hero-content relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 pt-32 pb-24">
+        <div className="grid grid-cols-12 gap-6 items-center">
+          <div className="col-span-12 lg:col-span-9">
+            <div ref={badgeRef} className="inline-flex items-center gap-2 glass-strong px-4 py-2 rounded-full mb-8 text-xs uppercase tracking-[0.2em] font-medium">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
               <span>Available for new projects</span>
+              <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)] animate-pulse" />
             </div>
-            
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display">
-              <span className="block mb-2 lg:mb-4">Mohammed</span>
-              <span className="text-gradient">Ghazal</span>
+
+            <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.85] text-[clamp(3rem,12vw,11rem)]">
+              <span className="block overflow-hidden">
+                <span ref={firstNameRef} className="inline-block will-change-transform">
+                  Mohammed
+                </span>
+              </span>
+              <span className="block overflow-hidden">
+                <span
+                  ref={lastNameRef}
+                  className="inline-block will-change-transform text-gradient"
+                >
+                  Ghazal
+                </span>
+              </span>
             </h1>
-            
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-muted-foreground">
-              Full-Stack MERN Developer
-            </h2>
-            
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Full-Stack MERN developer experienced in building scalable, high-performance web applications. 
-              Skilled in modern UI/UX design, RESTful API integration, responsive design, and web accessibility.
+
+            <div className="mt-8 flex items-baseline flex-wrap gap-x-4 gap-y-2 text-2xl md:text-3xl font-light">
+              <span className="text-muted-foreground">A</span>
+              <span className="overflow-hidden inline-block h-[1.2em] align-middle">
+                <span ref={roleRef} className="block">
+                  {ROLES[0]}
+                </span>
+              </span>
+              <span className="text-muted-foreground">based in Madinah, KSA</span>
+            </div>
+
+            <p
+              ref={taglineRef}
+              className="mt-10 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground"
+            >
+              Building scalable, high-performance web applications with the MERN stack —
+              obsessed with clean code, considered motion, and interfaces that earn their
+              first impression.
             </p>
-            
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
-              <Button 
-                size="lg" 
-                onClick={scrollToContact}
-                className="gradient-primary hover:shadow-glow transition-all duration-300 hover:scale-105 text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14"
+
+            <div ref={ctaRef} className="mt-12 flex flex-wrap items-center gap-4">
+              <a
+                ref={ctaPrimary}
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo("contact");
+                }}
+                data-cursor="hover"
+                className="group relative inline-flex items-center gap-3 rounded-full bg-foreground text-background px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] overflow-hidden"
               >
-                <Mail className="mr-2 h-5 w-5" />
-                Let's Connect
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                onClick={scrollToProjects}
-                className="glass-strong transition-all duration-300 hover:scale-105 text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14 border-2"
+                <span className="relative z-10 flex items-center gap-3">
+                  <Mail className="h-4 w-4" />
+                  Let's collaborate
+                </span>
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out gradient-primary" />
+              </a>
+
+              <a
+                ref={ctaGhost}
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo("projects");
+                }}
+                data-cursor="hover"
+                className="group inline-flex items-center gap-3 rounded-full glass-strong px-7 py-4 text-sm font-semibold uppercase tracking-[0.18em] hover:bg-foreground/5 transition-colors"
               >
-                View Work
-              </Button>
+                View work
+                <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+              </a>
             </div>
           </div>
-          
-          {/* Right side - 3D Model */}
-          <div className="flex-1 w-full lg:w-1/2 h-[50vh] lg:h-[80vh]">
-            <Suspense fallback={<ModelFallback />}>
-              <HeroModel />
-            </Suspense>
+
+          {/* Right column: meta stack */}
+          <div className="col-span-12 lg:col-span-3 flex flex-col gap-4 lg:items-end">
+            <div ref={meta1Ref} className="glass-strong rounded-2xl p-5 w-full lg:max-w-[260px]">
+              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                Currently
+              </div>
+              <div className="text-base font-medium leading-snug">
+                Engineering at the intersection of <span className="text-gradient font-bold">design</span> and <span className="text-gradient font-bold">code</span>
+              </div>
+            </div>
+            <div ref={meta2Ref} className="glass-strong rounded-2xl p-5 w-full lg:max-w-[260px]">
+              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                Stack
+              </div>
+              <div className="flex flex-wrap gap-1.5 text-[11px] font-medium font-mono uppercase tracking-wider">
+                {["React", "TypeScript", "Node", "Express", "MongoDB", "Tailwind"].map((t) => (
+                  <span key={t} className="px-2.5 py-1 rounded-full bg-foreground/5 border border-foreground/10">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-          
+        </div>
+
+        {/* Scroll hint */}
+        <div
+          ref={scrollHintRef}
+          className="absolute left-1/2 -translate-x-1/2 bottom-8 flex flex-col items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+        >
+          <span>Scroll</span>
+          <ArrowDown className="h-4 w-4" />
         </div>
       </div>
     </section>
