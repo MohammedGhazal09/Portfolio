@@ -1,6 +1,6 @@
 # Mohammed Ghazal | Portfolio
 
-A modern, responsive portfolio website showcasing my work as a Full-Stack MERN Developer.
+A modern, responsive portfolio website showcasing my work as a Web Developer.
 
 🔗 **Live Site:** ([portfolio-omega-ecru-62.vercel.app](https://portfolio-omega-ecru-62.vercel.app/))
 
