@@ -41,7 +41,7 @@ const PROJECTS: Project[] = [
       "A full-stack MERN e-commerce platform with product catalog and filtering, persistent cart, coupons/discounts and a complete checkout flow. Includes an order-tracking timeline, user accounts with addresses and order history, and MapTiler integration on the contact page.",
     stack: ["React", "Node.js", "Express", "MongoDB", "MapTiler", "JWT", "Tailwind"],
     image: "/projects/plashoe.webp",
-    demo: "https://ecommerce-theta-lemon.vercel.app",
+    demo: "https://plashoe-frontend-flax.vercel.app",
     github: "https://github.com/MohammedGhazal09/PLASHOE",
     accent: "#a78bfa",
     year: "2024",
