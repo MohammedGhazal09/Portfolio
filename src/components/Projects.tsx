@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight, Package } from "lucide-react";
 import { gsap, SplitText } from "../lib/gsap";
 import { useMagnetic } from "../lib/magnetic";
 
@@ -11,8 +11,13 @@ type Project = {
   stack: string[];
   image: string; // public path
   demo: string | null;
+  demoFallbackLabel?: string;
   github: string;
+  packageUrl?: string;
+  packageLabel?: string;
+  sourceLabel?: string;
   status?: string;
+  signal?: string;
   /** Hex accent used in the card glow + corner marks */
   accent: string;
   /** Year shipped */
@@ -30,6 +35,7 @@ const PROJECTS: Project[] = [
     image: "/projects/chatify.webp",
     demo: "https://chatify-ten-rho.vercel.app/",
     github: "https://github.com/MohammedGhazal09/Chatify",
+    signal: "Live",
     accent: "#22d3ee",
     year: "2024",
   },
@@ -43,6 +49,7 @@ const PROJECTS: Project[] = [
     image: "/projects/plashoe.webp",
     demo: "https://plashoe-frontend-flax.vercel.app",
     github: "https://github.com/MohammedGhazal09/PLASHOE",
+    signal: "Live",
     accent: "#a78bfa",
     year: "2024",
   },
@@ -55,10 +62,30 @@ const PROJECTS: Project[] = [
     stack: ["React", "Node.js", "Socket.io", "OpenAI", "MongoDB"],
     image: "/projects/clutch.svg",
     demo: null,
+    demoFallbackLabel: "Demo soon",
     github: "https://github.com/Mohammed-dev01/Clutch/tree/merge",
+    signal: "Private Testing",
     accent: "#fbbf24",
     year: "2025",
     status: "In Development",
+  },
+  {
+    index: "04",
+    title: "LinkedIn Apply Assistant",
+    tagline: "Local-first job workflow assistant.",
+    description:
+      "An open-source CLI and visible-browser assistant for LinkedIn job workflows. It supports search reports, fill-only assist sessions, prepare-only apply audits, dry-run validation, local report review, updater flows and public quality/security checks while keeping submissions user-controlled.",
+    stack: ["Python", "Playwright", "Scrapling", "PyYAML", "Node.js", "GitHub Actions", "Ruff"],
+    image: "/projects/linkedin-apply-assistant.svg",
+    demo: null,
+    github: "https://github.com/MohammedGhazal09/linkedin-apply-assistant",
+    packageUrl: "https://www.npmjs.com/package/linkedin-apply-assistant",
+    packageLabel: "Package",
+    sourceLabel: "Repository",
+    signal: "Open Source",
+    accent: "#0a66c2",
+    year: "2026",
+    status: "Open Source",
   },
 ];
 
@@ -106,6 +133,11 @@ const ProjectCard = ({ project, i }: { project: Project; i: number }) => {
   const positionStyle: React.CSSProperties = {
     top: `calc(80px + ${i * 24}px)`,
   };
+  const signal = project.signal ?? (project.demo ? "Live" : "Source");
+  const primaryActionClass =
+    "group inline-flex items-center gap-3 rounded-full bg-foreground text-background px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-primary hover:text-primary-foreground transition-colors";
+  const secondaryActionClass =
+    "group inline-flex items-center gap-3 rounded-full glass-strong px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-foreground/5";
 
   return (
     <div
@@ -158,8 +190,14 @@ const ProjectCard = ({ project, i }: { project: Project; i: number }) => {
 
             {/* Status pill */}
             {project.status && (
-              <div className="absolute bottom-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur text-xs font-mono uppercase tracking-[0.2em] text-amber-300 border border-amber-300/40">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-300 animate-pulse" />
+              <div
+                className="absolute bottom-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur text-xs font-mono uppercase tracking-[0.2em] border"
+                style={{ color: project.accent, borderColor: `${project.accent}66` }}
+              >
+                <span
+                  className="h-1.5 w-1.5 rounded-full animate-pulse"
+                  style={{ backgroundColor: project.accent }}
+                />
                 {project.status}
               </div>
             )}
@@ -176,7 +214,7 @@ const ProjectCard = ({ project, i }: { project: Project; i: number }) => {
                   className="text-xs font-mono uppercase tracking-[0.25em]"
                   style={{ color: project.accent }}
                 >
-                  ● Live
+                  ● {signal}
                 </span>
               </div>
 
@@ -208,17 +246,32 @@ const ProjectCard = ({ project, i }: { project: Project; i: number }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="hover"
-                  className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-primary hover:text-primary-foreground transition-colors"
+                  className={primaryActionClass}
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   Live demo
                   <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
-              ) : (
+              ) : project.packageUrl ? (
+                <a
+                  ref={demoRef}
+                  href={project.packageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="hover"
+                  className={primaryActionClass}
+                >
+                  <Package className="h-3.5 w-3.5" />
+                  {project.packageLabel ?? "Package"}
+                  <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
+              ) : project.demoFallbackLabel ? (
                 <span className="inline-flex items-center gap-3 rounded-full px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] border border-dashed border-muted-foreground/40 text-muted-foreground cursor-not-allowed">
                   <ExternalLink className="h-3.5 w-3.5" />
-                  Demo soon
+                  {project.demoFallbackLabel}
                 </span>
+              ) : (
+                null
               )}
               <a
                 ref={githubRef}
@@ -226,10 +279,10 @@ const ProjectCard = ({ project, i }: { project: Project; i: number }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="hover"
-                className="group inline-flex items-center gap-3 rounded-full glass-strong px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-foreground/5"
+                className={project.demo || project.packageUrl ? secondaryActionClass : primaryActionClass}
               >
                 <Github className="h-3.5 w-3.5" />
-                Source
+                {project.sourceLabel ?? "Source"}
               </a>
             </div>
           </div>
@@ -280,7 +333,7 @@ export const Projects = () => {
             Things I've <span className="text-gradient">shipped</span>.
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-md">
-            Three projects I'd happily walk you through line-by-line — each shipped end-to-end, design through deploy.
+            Projects I'd happily walk you through line-by-line, from product decisions and implementation details to release and deployment.
           </p>
         </div>
 

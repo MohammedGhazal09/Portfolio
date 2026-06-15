@@ -1,0 +1,53 @@
+<svg width="1200" height="750" viewBox="0 0 1200 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="750" fill="#07111f"/>
+  <rect x="0" y="0" width="1200" height="750" fill="url(#mesh)" opacity="0.95"/>
+
+  <g opacity="0.22">
+    <path d="M86 152H1114" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M86 286H1114" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M86 420H1114" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M86 554H1114" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M198 70V680" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M428 70V680" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M658 70V680" stroke="#9CC9F5" stroke-width="1"/>
+    <path d="M888 70V680" stroke="#9CC9F5" stroke-width="1"/>
+  </g>
+
+  <rect x="96" y="96" width="1008" height="558" rx="34" fill="#0B1728" stroke="#7DB7F0" stroke-opacity="0.22"/>
+  <rect x="96" y="96" width="1008" height="78" rx="34" fill="#10243D"/>
+  <circle cx="142" cy="135" r="10" fill="#FF6B6B"/>
+  <circle cx="174" cy="135" r="10" fill="#FFD166"/>
+  <circle cx="206" cy="135" r="10" fill="#06D6A0"/>
+  <text x="260" y="142" fill="#B9D7F7" font-family="Consolas, 'Courier New', monospace" font-size="24" letter-spacing="2">linkedin-apply-assistant</text>
+
+  <rect x="142" y="222" width="472" height="334" rx="24" fill="#07111F" stroke="#2D7DC3" stroke-opacity="0.45"/>
+  <text x="220" y="270" fill="#66D9EF" font-family="Consolas, 'Courier New', monospace" font-size="22">npm i -g linkedin-apply-assistant</text>
+  <text x="220" y="326" fill="#E6F0FF" font-family="Consolas, 'Courier New', monospace" font-size="20">config check</text>
+  <text x="220" y="366" fill="#E6F0FF" font-family="Consolas, 'Courier New', monospace" font-size="20">search --query "frontend"</text>
+  <text x="220" y="406" fill="#E6F0FF" font-family="Consolas, 'Courier New', monospace" font-size="20">assist --mode fill-only</text>
+  <text x="220" y="446" fill="#E6F0FF" font-family="Consolas, 'Courier New', monospace" font-size="20">apply --input jobs.json</text>
+  <text x="220" y="500" fill="#88E0B0" font-family="Consolas, 'Courier New', monospace" font-size="20">no-submit by default</text>
+
+  <rect x="668" y="222" width="390" height="334" rx="24" fill="#F5F8FC"/>
+  <rect x="704" y="258" width="112" height="112" rx="24" fill="#0A66C2"/>
+  <text x="739" y="332" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">in</text>
+  <text x="704" y="416" fill="#07111F" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="800">Local-first CLI</text>
+  <text x="704" y="462" fill="#26364A" font-family="Inter, Arial, sans-serif" font-size="21">Visible browser workflows,</text>
+  <text x="704" y="494" fill="#26364A" font-family="Inter, Arial, sans-serif" font-size="21">dry runs and local reports.</text>
+  <rect x="704" y="524" width="112" height="34" rx="17" fill="#E7F0FA"/>
+  <text x="728" y="548" fill="#0A66C2" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">Quality</text>
+  <rect x="832" y="524" width="118" height="34" rx="17" fill="#E7F7EF"/>
+  <text x="854" y="548" fill="#087A45" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">Security</text>
+
+  <rect x="162" y="592" width="876" height="24" rx="12" fill="#0A66C2" opacity="0.28"/>
+  <rect x="162" y="592" width="610" height="24" rx="12" fill="#0A66C2"/>
+  <text x="164" y="637" fill="#B9D7F7" font-family="Consolas, 'Courier New', monospace" font-size="18">MIT open source - npm launcher - Python package - GitHub Actions</text>
+
+  <defs>
+    <radialGradient id="mesh" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(304 116) rotate(56) scale(600 800)">
+      <stop stop-color="#0A66C2" stop-opacity="0.72"/>
+      <stop offset="0.48" stop-color="#1F7DD4" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#07111F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "../lib/gsap";
+import { gsap } from "../lib/gsap";
 
 /** Top-of-page gradient scroll progress bar, scrubbed by ScrollTrigger. */
 export const ScrollProgress = () => {
