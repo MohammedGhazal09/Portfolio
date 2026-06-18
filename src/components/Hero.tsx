@@ -38,20 +38,18 @@ export const Hero = () => {
         return s;
       };
 
-      const first = split(firstNameRef.current);
-      const last = split(lastNameRef.current);
       const tagline = split(taglineRef.current, "lines,words");
 
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
       tl.from(badgeRef.current, { y: 30, opacity: 0, duration: 0.8 })
         .from(
-          first?.chars ?? [],
-          { yPercent: 120, opacity: 0, stagger: 0.04, duration: 1 },
+          firstNameRef.current,
+          { yPercent: 120, opacity: 0, duration: 1 },
           "-=0.4",
         )
         .from(
-          last?.chars ?? [],
-          { yPercent: 120, opacity: 0, stagger: 0.04, duration: 1 },
+          lastNameRef.current,
+          { yPercent: 120, opacity: 0, duration: 1 },
           "-=0.85",
         )
         .from(roleRef.current, { y: 24, opacity: 0, duration: 0.8 }, "-=0.5")
