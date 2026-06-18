@@ -155,7 +155,7 @@ export const Hero = () => {
             </div>
 
             <h1
-              className="font-display font-bold tracking-[-0.04em] leading-[0.85] text-[clamp(2.75rem,11vw,10rem)]"
+              className="font-display font-bold tracking-normal leading-[0.85] text-[clamp(2.75rem,11vw,10rem)]"
               style={{ textWrap: "nowrap" } as React.CSSProperties}
             >
               <span className="block overflow-hidden whitespace-nowrap">
