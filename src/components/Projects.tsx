@@ -32,7 +32,7 @@ const PROJECTS: Project[] = [
     description:
       "A real-time chat app built with React, Node/Express, MongoDB and Socket.IO — featuring typing indicators, online presence and message delivery tracking. JWT + cookies auth with password recovery and protected user flows.",
     stack: ["React", "Node.js", "Express", "MongoDB", "Socket.IO", "JWT", "Cookies"],
-    image: "/projects/chatify.webp?v=20260619",
+    image: "/projects/chatify.webp?v=20260619-login",
     demo: "https://chatify-ten-rho.vercel.app/",
     github: "https://github.com/MohammedGhazal09/Chatify",
     signal: "Live",
