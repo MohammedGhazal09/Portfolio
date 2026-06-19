@@ -32,7 +32,7 @@ const PROJECTS: Project[] = [
     description:
       "A real-time chat app built with React, Node/Express, MongoDB and Socket.IO — featuring typing indicators, online presence and message delivery tracking. JWT + cookies auth with password recovery and protected user flows.",
     stack: ["React", "Node.js", "Express", "MongoDB", "Socket.IO", "JWT", "Cookies"],
-    image: "/projects/chatify.webp",
+    image: "/projects/chatify.webp?v=20260619",
     demo: "https://chatify-ten-rho.vercel.app/",
     github: "https://github.com/MohammedGhazal09/Chatify",
     signal: "Live",
@@ -46,7 +46,7 @@ const PROJECTS: Project[] = [
     description:
       "A full-stack MERN e-commerce platform with product catalog and filtering, persistent cart, coupons/discounts and a complete checkout flow. Includes an order-tracking timeline, user accounts with addresses and order history, and MapTiler integration on the contact page.",
     stack: ["React", "Node.js", "Express", "MongoDB", "MapTiler", "JWT", "Tailwind"],
-    image: "/projects/plashoe.webp",
+    image: "/projects/plashoe.webp?v=20260619",
     demo: "https://plashoe-frontend-flax.vercel.app",
     github: "https://github.com/MohammedGhazal09/PLASHOE",
     signal: "Live",
